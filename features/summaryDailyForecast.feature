@@ -39,7 +39,7 @@ Feature: As a Tourist on holiday
 
   Scenario: The aggregate rainfall for the day will be shown on the Daily Summary
     When I enter "Perth" in the city location
-    Then I expect "Tomorrow" the rainfall total of "7mm" will be displayed
+    Then I expect for "Tomorrow" the rainfall total of "7mm" will be displayed
 
   Scenario Outline: The Daily Summary will display the Maximum and Minimum temperatures
     When I enter "<cityname>" in the city location

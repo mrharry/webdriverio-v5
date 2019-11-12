@@ -8,15 +8,21 @@ class WeatherForecastPage extends Page {
     get city() { return $('#city') }
     get today() { return $('[data-test="day-1"]') }
     get tomorrow() { return $('[data-test="day-2"]') }
-    get dailySummary() { return $$('.summary') }
-    get dayNames() { return $$('.name') }
-    get dayDates() { return $$('.date') }
-    get pressure() { return $$('.pressure >') }
-    get threeHourPeriods() { return $$('.hour') }
     get errorMessage() { return $('[data-test="error"]')}
+
+    get dailySummary() { return $$('.summary') }
+    get dayNames() { return $$('[data-test^="day-"]') }
+    get dayDates() { return $$('[data-test^="date-"]') }
+    get threeHourPeriods() { return $$('[data-test^="hour"]') }
 
     open() {
         super.open('/')
+    }
+
+    enterNewLocation (location) {
+        this.city.clearValue();
+        this.city.setValue(location);
+        super.keys("Enter");
     }
 
     namesOfDays () {
@@ -42,22 +48,37 @@ class WeatherForecastPage extends Page {
 
         return list.slice(0, -1);  // return the comma separated list minus the last comma
     }
+    
+    descriptionDailySummary (day, summaryCondition) {
+        let dayIndex = this.dayIndex(day);
+        let sel = '[data-test=' + '"' + "description" + "-" + dayIndex + '"] > path.' + summaryCondition;
 
-    pressure () {
+        return $(sel).isDisplayed()
+    }
+
+    temperatureDailySummary (day, limit) {
+        let dayIndex = this.dayIndex(day);
+        let sel = '[data-test=' + '"' + limit + "-" + dayIndex + '"]';
+
+        return $(sel).getText();
+    }
+
+    windSpeedDailySummary (day) {
+        let dayIndex = this.dayIndex(day);
+        let sel = '[data-test=' + '"' + "speed" + "-" + dayIndex + '"]';
+
+        return $(sel).getText()
+    }
+
+    pressureDailySummary () {
         let list = '';
         var i = 1;
-        for (; i < 6; i++) {
+        for (; i <= 5; i++) {
             let sel = '[data-test=' + '"' + "pressure" + "-" + i + '"]';
             list = list + $(sel).getText() + ','
         }
 
         return list.slice(0, -1);  // return the comma separated list minus the last comma
-    }
-
-    enterNewLocation (location) {
-        this.city.clearValue();
-        this.city.setValue(location);
-        super.keys("Enter");
     }
 
     selectDay( day) {
@@ -84,13 +105,14 @@ class WeatherForecastPage extends Page {
         return count
     }
 
-    threeHourPeriodsList () {
+    threeHourPeriodsList (day) {
+        let dayIndex = this.dayIndex(day);
+        let threeHourPeriods = '[data-test^="hour-' + dayIndex + '"]';
         let list = '';
-        var i;
-        for (i = 0; i < this.threeHourPeriods.length; i++) {
-            if (this.threeHourPeriods[i].isDisplayed()) {
-                list = list + this.threeHourPeriods[i].getText() + ','
-            }
+        var i = 1;
+        for (; i <= $$(threeHourPeriods).length; i++) {
+            let sel = '[data-test=' + '"' + "hour-" + dayIndex + "-" + i + '"]';
+            list = list + $(sel).getText() + ','
         }
 
         return list.slice(0, -1);  // return the comma separated list minus the last comma
@@ -98,9 +120,10 @@ class WeatherForecastPage extends Page {
 
     threeHourPeriodsTemp (day, limit) {
         let dayIndex = this.dayIndex(day);
+        let threeHourPeriods = '[data-test^=' + '"' + limit + "-" + dayIndex + "-" + '"]';
         let list = '';
         var i = 1;
-        for (; i < 5; i++) {
+        for (; i <= $$(threeHourPeriods).length; i++) {
             let sel = '[data-test=' + '"' + limit + "-" + dayIndex + "-" + i + '"]';
             list = list + $(sel).getText() + ','
         }
@@ -110,9 +133,10 @@ class WeatherForecastPage extends Page {
 
     threeHourPeriodsWind (day, speed) {
         let dayIndex = this.dayIndex(day);
+        let threeHourPeriods = '[data-test^=' + '"' + speed + "-" + dayIndex + "-" + '"]';
         let list = '';
         var i = 1;
-        for (; i < 5; i++) {
+        for (; i <= $$(threeHourPeriods).length; i++) {
             let sel = '[data-test=' + '"' + speed + "-" + dayIndex + "-" + i + '"]';
             list = list + $(sel).getText() + ','
         }
@@ -120,34 +144,13 @@ class WeatherForecastPage extends Page {
         return list.slice(0, -1);  // return the comma separated list minus the last comma
     }
 
-    rainfall (day) {
+    rainfallDailySummary (day) {
         let dayIndex = this.dayIndex(day);
         let sel = '[data-test=' + '"' + "rainfall" + "-" + dayIndex + '"]';
 
         return $(sel).getText()
     }
-
-    temperature (day, limit) {
-        let dayIndex = this.dayIndex(day);
-        let sel = '[data-test=' + '"' + limit + "-" + dayIndex + '"]';
-
-        return $(sel).getText();
-    }
-
-    descriptionSummary (day, summaryCondition) {
-        let dayIndex = this.dayIndex(day);
-        let sel = '[data-test=' + '"' + "description" + "-" + dayIndex + '"] > path.' + summaryCondition;
-
-        return $(sel).isDisplayed()
-    }
-
-    windSummary (day) {
-        let dayIndex = this.dayIndex(day);
-        let sel = '[data-test=' + '"' + "speed" + "-" + dayIndex + '"]';
-
-        return $(sel).getText()
-    }
-
+    
     cityName () {
         return this.city.getValue()
     }
