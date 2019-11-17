@@ -5,6 +5,7 @@ node {
                 checkout()
                 build()
                 tests()
+                reports()
             }
             else // tests only
              {
@@ -36,4 +37,9 @@ def tests() {
         } catch (Exception err) {
             exit = 0
         }
+}
+
+def reports() {
+    stage 'reports'
+        sh 'npm run "report"'
 }
