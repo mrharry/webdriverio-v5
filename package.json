@@ -4,7 +4,8 @@
   "description": "Webdriverio v5 with Cucumber",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/wdio wdio.conf.js"
+    "test": "./node_modules/.bin/wdio wdio.conf.js",
+    "report": "./node_modules/.bin/allure generate ./results/allure-results --clean -o ./results/allure-report/"
   },
   "keywords": [
     "Webdriver",
@@ -17,6 +18,7 @@
     "@babel/core": "^7.7.2",
     "@babel/preset-env": "^7.7.1",
     "@babel/register": "^7.7.0",
+    "@wdio/allure-reporter": "^5.16.0",
     "@wdio/cli": "^5.16.5",
     "@wdio/cucumber-framework": "^5.16.5",
     "@wdio/local-runner": "^5.16.5",
