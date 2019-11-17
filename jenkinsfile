@@ -40,6 +40,17 @@ def tests() {
 }
 
 def reports() {
-    stage 'reports'
-        sh 'npm run "report"'
+    stage('reports') {
+        steps {
+        script {
+                allure([
+                        includeProperties: false,
+                        jdk: '',
+                        properties: [],
+                        reportBuildPolicy: 'ALWAYS',
+                        results: [[path: 'results/allure-results']]
+                ])
+        }
+        }
+    }
 }
