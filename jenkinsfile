@@ -41,16 +41,6 @@ def tests() {
 
 def reports() {
     stage('reports') {
-        step {
-            script {
-                    allure([
-                            includeProperties: false,
-                            jdk: '',
-                            properties: [],
-                            reportBuildPolicy: 'ALWAYS',
-                            results: [[path: 'results/allure-results']]
-                    ])
-            }
-        }
+        allure includeProperties: false, jdk: '', report: 'reports/allure-report', results: [[path: 'allure-results']]
     }
 }
