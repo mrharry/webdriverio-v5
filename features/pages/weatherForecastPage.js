@@ -48,7 +48,7 @@ class WeatherForecastPage extends Page {
 
         return list.slice(0, -1);  // return the comma separated list minus the last comma
     }
-    
+
     descriptionDailySummary (day, summaryCondition) {
         let dayIndex = this.dayIndex(day);
         let sel = '[data-test=' + '"' + "description" + "-" + dayIndex + '"] > path.' + summaryCondition;
@@ -90,7 +90,6 @@ class WeatherForecastPage extends Page {
                 this.tomorrow.click();
                 break;
         }
-        browser.pause(3000); //TODO fix this!
     }
 
     threeHourPeriodsVisible () {
@@ -107,10 +106,10 @@ class WeatherForecastPage extends Page {
 
     threeHourPeriodsList (day) {
         let dayIndex = this.dayIndex(day);
-        let threeHourPeriods = '[data-test^="hour-' + dayIndex + '"]';
+        let threeHourPeriods = $$('[data-test^="hour-' + dayIndex + '"]');
         let list = '';
         var i = 1;
-        for (; i <= $$(threeHourPeriods).length; i++) {
+        for (; i <= threeHourPeriods.length; i++) {
             let sel = '[data-test=' + '"' + "hour-" + dayIndex + "-" + i + '"]';
             list = list + $(sel).getText() + ','
         }
@@ -120,10 +119,10 @@ class WeatherForecastPage extends Page {
 
     threeHourPeriodsTemp (day, limit) {
         let dayIndex = this.dayIndex(day);
-        let threeHourPeriods = '[data-test^=' + '"' + limit + "-" + dayIndex + "-" + '"]';
+        let threeHourPeriods = $$('[data-test^=' + '"' + limit + "-" + dayIndex + "-" + '"]');
         let list = '';
         var i = 1;
-        for (; i <= $$(threeHourPeriods).length; i++) {
+        for (; i <= threeHourPeriods.length; i++) {
             let sel = '[data-test=' + '"' + limit + "-" + dayIndex + "-" + i + '"]';
             list = list + $(sel).getText() + ','
         }
@@ -133,10 +132,10 @@ class WeatherForecastPage extends Page {
 
     threeHourPeriodsWind (day, speed) {
         let dayIndex = this.dayIndex(day);
-        let threeHourPeriods = '[data-test^=' + '"' + speed + "-" + dayIndex + "-" + '"]';
+        let threeHourPeriods = $$('[data-test^=' + '"' + speed + "-" + dayIndex + "-" + '"]');
         let list = '';
         var i = 1;
-        for (; i <= $$(threeHourPeriods).length; i++) {
+        for (; i <= threeHourPeriods.length; i++) {
             let sel = '[data-test=' + '"' + speed + "-" + dayIndex + "-" + i + '"]';
             list = list + $(sel).getText() + ','
         }
@@ -150,7 +149,7 @@ class WeatherForecastPage extends Page {
 
         return $(sel).getText()
     }
-    
+
     cityName () {
         return this.city.getValue()
     }
