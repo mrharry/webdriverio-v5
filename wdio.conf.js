@@ -125,7 +125,12 @@ exports.config = {
         timeout: 20000,    // <number> timeout for step definitions
     },
     // see also: https://webdriver.io/docs/dot-reporter.html
-    reporters: ['spec'],
+    //reporters: ['spec'],
+    reporters: [['allure', {
+        outputDir: 'results/allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: true,
+    }]],
 
     //
     // Options to be passed to Mocha.
